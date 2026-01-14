@@ -1,8 +1,9 @@
 resource "aws_vpc" "main" {
-    cidr_block = "10.0.0.0/16"
+    cidr_block = var.vpc_cidr
 
     tags = {
-        Name = "main"
+        Name = "${var.environment}-vpc"
+        Environment = var.environment
     }
 }
 
@@ -11,6 +12,7 @@ resource "aws_subnet" "main" {
     cidr_block = "10.0.1.0/24"
 
     tags = {
-        Name = "Main"
+        Name = "${var.environment}-vpc"
+        Environment = var.environment
     }
 }
