@@ -29,7 +29,7 @@ output "nat_gateway_id_a" {
 }
 
 output "nat_gateway_id_b" {
-    description = "ID of the NAT Gateway (private n)"
+    description = "ID of the NAT Gateway (private b)"
     value       = aws_nat_gateway.nat_b.id
 }
 
