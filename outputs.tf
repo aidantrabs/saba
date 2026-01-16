@@ -32,3 +32,8 @@ output "internet_gateway_id" {
     description = "ID of the Internet Gateway"
     value       = aws_internet_gateway.main.id
 }
+
+output "bastion_public_ip" {
+    description = "Public IP of the bastion host"
+    value       = aws_instance.ec2.public_ip
+}
