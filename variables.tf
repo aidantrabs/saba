@@ -27,3 +27,21 @@ variable "az_b" {
     description = "Availability Zone B"
     default     = "us-east-1b"
 }
+
+variable "ami_name_filter" {
+    type = string
+    description = "AMI name filter pattern"
+    default = "al2023-ami-*-x86_64"
+}
+
+variable "ami_owner" {
+    type = string
+    description = "AMI owner (AWS account ID or alias)"
+    default = "amazon"
+}
+
+variable "instance_type" {
+    type = string
+    description = "EC2 instance type"
+    default = "t3.micro"
+}
