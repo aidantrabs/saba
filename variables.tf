@@ -1,47 +1,65 @@
-variable "vpc_cidr" {
-    type        = string
-    description = "VPC CIDR block"
-    default     = "10.0.0.0/16"
-}
+/*
+ *
+ * @desc: root modules variables
+ *
+ */
+
+# ------------------------------------------------------------------------------
+# general
+# ------------------------------------------------------------------------------
 
 variable "environment" {
     type        = string
-    description = "Environment name for resource tagging"
+    description = "Environment name (dev, staging, prod)"
     default     = "dev"
 }
 
 variable "aws_region" {
     type        = string
-    description = "AWS region"
+    description = "AWS region for deployment"
     default     = "us-east-1"
+}
+
+# ------------------------------------------------------------------------------
+# networking
+# ------------------------------------------------------------------------------
+
+variable "vpc_cidr" {
+    type        = string
+    description = "CIDR block for the VPC"
+    default     = "10.0.0.0/16"
 }
 
 variable "az_a" {
     type        = string
-    description = "Availability Zone A"
+    description = "First availability zone"
     default     = "us-east-1a"
 }
 
 variable "az_b" {
     type        = string
-    description = "Availability Zone B"
+    description = "Second availability zone"
     default     = "us-east-1b"
 }
 
-variable "ami_name_filter" {
-    type = string
-    description = "AMI name filter pattern"
-    default = "al2023-ami-*-x86_64"
-}
-
-variable "ami_owner" {
-    type = string
-    description = "AMI owner (AWS account ID or alias)"
-    default = "amazon"
-}
+# ------------------------------------------------------------------------------
+# bastion
+# ------------------------------------------------------------------------------
 
 variable "instance_type" {
-    type = string
-    description = "EC2 instance type"
-    default = "t3.micro"
+    type        = string
+    description = "EC2 instance type for bastion host"
+    default     = "t3.micro"
+}
+
+variable "public_key_path" {
+    type        = string
+    description = "Path to SSH public key for bastion access"
+    default     = "~/.ssh/bastion-key.pub"
+}
+
+variable "allowed_ssh_cidr" {
+    type        = string
+    description = "CIDR block allowed to SSH to bastion (restrict in production)"
+    default     = "0.0.0.0/0"
 }
