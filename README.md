@@ -13,6 +13,7 @@ Saba is a modular Terraform project that provisions a secure, highly-available V
 - **Redundant NAT Gateways** - One per AZ to eliminate single points of failure
 - **Bastion Host** - Secure jump server for SSH access to private resources
 - **Modular Design** - Reusable modules for networking and bastion components
+- **LocalStack Support** - Test infrastructure locally without AWS costs
 
 ## Architecture
 
@@ -56,7 +57,7 @@ saba/
 ├── outputs.tf              # Output values
 ├── versions.tf             # Terraform/provider versions
 ├── providers.tf            # AWS provider configuration
-├── architecture.png        # Infrastructure diagram
+├── architecture.png        # Infrastructure diagram (generated via inframap)
 │
 └── modules/
     ├── networking/         # VPC, subnets, NAT gateways, routing
@@ -100,6 +101,49 @@ terraform apply
 ssh -i ~/.ssh/bastion-key ec2-user@$(terraform output -raw bastion_public_ip)
 ```
 
+### Access Private Resources
+
+Use the bastion as a jump host:
+
+```bash
+ssh -i ~/.ssh/bastion-key -J ec2-user@<bastion-ip> ec2-user@<private-ip>
+```
+
+## Local Development
+
+Test the infrastructure locally using [LocalStack](https://localstack.cloud/) without incurring AWS costs.
+
+### Setup
+
+1. Start LocalStack:
+   ```bash
+   docker run -d -p 4566:4566 localstack/localstack
+   ```
+
+2. Create a local provider override (`providers_override.tf`):
+   ```hcl
+   provider "aws" {
+       region                      = "us-east-1"
+       access_key                  = "test"
+       secret_key                  = "test"
+       skip_credentials_validation = true
+       skip_metadata_api_check     = true
+       skip_requesting_account_id  = true
+
+       endpoints {
+           ec2 = "http://localhost:4566"
+           iam = "http://localhost:4566"
+           sts = "http://localhost:4566"
+       }
+   }
+   ```
+
+3. Deploy locally:
+   ```bash
+   terraform init
+   terraform apply
+   ```
+
 ## Configuration
 
 | Variable | Description | Default |
@@ -118,12 +162,22 @@ ssh -i ~/.ssh/bastion-key ec2-user@$(terraform output -raw bastion_public_ip)
 | `public_subnet_ids` | Public subnet IDs |
 | `private_subnet_ids` | Private subnet IDs |
 | `bastion_public_ip` | Bastion host IP |
+| `nat_gateway_ids` | NAT Gateway IDs |
 
-## Security Notes
+## Generating Architecture Diagrams
 
-- **SSH Access**: Default allows SSH from anywhere. Restrict `allowed_ssh_cidr` in production.
+The architecture diagram is generated using [inframap](https://github.com/cycloidio/inframap):
+
+```bash
+inframap generate . --raw | dot -Tpng > architecture.png
+```
+
+## Security Considerations
+
+- **SSH Access**: Default allows SSH from anywhere (`0.0.0.0/0`). Restrict `allowed_ssh_cidr` to specific IPs in production.
 - **IMDSv2**: Bastion requires IMDSv2 for enhanced metadata security.
 - **Encryption**: Root volumes are encrypted by default.
+- **Private Isolation**: Resources in private subnets have no direct inbound internet access.
 
 ## License
 
