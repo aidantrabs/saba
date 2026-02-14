@@ -38,8 +38,8 @@
 - A **private subnet** is a subnet associated with a route table that *doesn't* have a route to an Internet Gateway. Resources in private subnets cannot communicate with the public internet.
 - Any AWS resource that doesn't need access to the public internet should run in a private subnet (e.g., application servers, databases).
 
-![Public vs Private Subnet Diagram 1](assets/public-private-subnet-1.png)
-![Public vs Private Subnet Diagram 2](assets/public-private-subnet-2.png)
+![Public vs Private Subnet Diagram 1](../assets/public-private-subnet-1.png)
+![Public vs Private Subnet Diagram 2](../assets/public-private-subnet-2.png)
 
 ### 3. In the `aws_subnet` resource, what argument links a subnet to its parent VPC?
 
@@ -121,7 +121,7 @@ Internet
 | `Classless Inter-Domain Routing (CIDR)` | A method for allocating IP addresses and routing on the internet. It allows for more efficient use of IP address space by enabling variable-length subnet masking (VLSM), which helps reduce the size of routing tables and slow down the exhaustion of IPv4 addresses. | Example: `11.0.1.125` — 32-bit address. Each number is 8 bits (8×4). |
 | `Subnet Mask` | A set of identifiers that returns the network address's value from the IP address by turning the host address into zeros. | |
 | `Virtual Private Cloud (VPC)` | A secure, isolated section of a public cloud where users can run their applications and store data while maintaining privacy and control over their resources. It combines the scalability of public cloud services with the data isolation typically found in private clouds. | |
-| `Internet Gateway (IGW)` | A resource that allows public internet access to and from your VPC and its containing resources. An IGW sits at the edge of the VPC — it's a resource you configure to sit between your VPC and the AWS Cloud (region) itself. Internet gateways allow resources on public subnets in your VPC to receive an IP address for public connectivity. | AWS-specific definition. `Amazon Resource Name (ARN)` ![Internet Gateway Diagram](assets/internet-gateway.png) |
+| `Internet Gateway (IGW)` | A resource that allows public internet access to and from your VPC and its containing resources. An IGW sits at the edge of the VPC — it's a resource you configure to sit between your VPC and the AWS Cloud (region) itself. Internet gateways allow resources on public subnets in your VPC to receive an IP address for public connectivity. | AWS-specific definition. `Amazon Resource Name (ARN)` ![Internet Gateway Diagram](../assets/internet-gateway.png) |
 | `Network Address Translation (NAT)` | A technique that allows multiple devices on a private network to share a single public IP address when accessing the internet. It modifies the IP address information in packets as they pass through a router, helping to conserve IP addresses and enhance security by hiding internal network structures. | |
 | `Network Access Control List (NACL)` | A set of rules used to control incoming and outgoing traffic at the subnet level in a network. It helps enhance security by specifying which traffic is allowed or denied based on defined criteria, such as IP addresses and protocols. | |
 | `Elastic IP (EIP)` | A public IPv4 address that you can allocate and manage independently in cloud services like AWS. It allows you to maintain a static IP address for your resources, even if they are stopped or restarted, ensuring consistent access. | |
@@ -211,7 +211,7 @@ Placing subnets in different AZs enhances the resilience and availability of app
 
 A **security group** controls the traffic that is allowed to reach and leave the resources it is associated with. For example, after you associate a security group with an EC2 instance, it controls the inbound and outbound traffic for that instance.
 
-![Security Group Diagram](assets/security-group.png)
+![Security Group Diagram](../assets/security-group.png)
 
 A **network ACL (NACL)** operates at the subnet level, controlling traffic for all resources within the subnet. It allows both permit and deny rules, but it does not remember connection state.
 
@@ -224,7 +224,7 @@ A **network ACL (NACL)** operates at the subnet level, controlling traffic for a
 
 We put the bastion in a public subnet to allow secure access from the internet to private resources within a network. This allows users to connect to internal services without exposing them directly to the public internet, while still maintaining a layer of security.
 
-![Bastion Host Architecture](assets/bastion-host-architecture.png)
+![Bastion Host Architecture](../assets/bastion-host-architecture.png)
 
 ### 4. What's the purpose of a key pair in EC2?
 
@@ -468,7 +468,7 @@ Alternative (generates in Terraform, but it ends up in the state file — obviou
 tls_private_key
 ```
 
-![EC2 Key Pair Diagram](assets/key-pair-diagram.png)
+![EC2 Key Pair Diagram](../assets/key-pair-diagram.png)
 
 ### EC2 Instance (Bastion Host)
 
