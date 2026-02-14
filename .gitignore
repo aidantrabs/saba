@@ -18,7 +18,6 @@ override.tf.json
 # Inframap diagram outputs
 inframap-diagram.*
 *.svg
-*.png
 
 # Editor and OS files
 .DS_Store
